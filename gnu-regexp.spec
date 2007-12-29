@@ -33,7 +33,8 @@
 
 Name:           gnu-regexp
 Version:        1.1.4
-Release:        %mkrel 10.0.1
+# 10jpp, but need 15 to obsolete old mdv package
+Release:        %mkrel 15.0.1
 Epoch:          0
 Summary:        Java NFA regular expression engine implementation
 License:        LGPL
