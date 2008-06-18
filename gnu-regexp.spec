@@ -28,13 +28,13 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-%define gcj_support 1
+%define gcj_support 0
 %define section free
 
 Name:           gnu-regexp
 Version:        1.1.4
-# 10jpp, but need 15 to obsolete old mdv package
-Release:        %mkrel 15.0.1
+# 10jpp, but need 17 to obsolete old mdv package
+Release:        %mkrel 17.0.1
 Epoch:          0
 Summary:        Java NFA regular expression engine implementation
 License:        LGPL
@@ -51,8 +51,6 @@ BuildRequires:  java-gcj-compat-devel
 BuildArch:      noarch
 %endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-#Distribution:        JPackage
-#Vendor:        JPackage Project
 Provides:        gnu.regexp = %{epoch}:%{version}-%{release}
 Obsoletes:        gnu.regexp < %{epoch}:%{version}-%{release}
 
@@ -86,8 +84,7 @@ Javadoc for %{name}.
 %prep
 %setup -q -n gnu.regexp-%{version}
 %__cp -a %{SOURCE1} build.xml
-# remove all binary libs
-find . -name "*.jar" -exec %__rm -f {} \;
+%remove_java_binaries
 
 %build
 export OPT_JAR_LIST=:
@@ -113,9 +110,7 @@ export CLASSPATH=$(build-classpath gnu.getopt)
 %__cp -a build/api/* %{buildroot}%{_javadocdir}/%{name}-%{version}
 (cd %{buildroot}%{_javadocdir} && %__ln_s %{name}-%{version} %{name})
 
-%if %{gcj_support}
-%{_bindir}/aot-compile-rpm
-%endif
+%{gcj_compile}
 
 %clean
 %__rm -rf %{buildroot}
@@ -124,10 +119,7 @@ export CLASSPATH=$(build-classpath gnu.getopt)
 %defattr(0644,root,root,0755)
 %doc COPYING COPYING.LIB README TODO docs/*.html
 %{_javadir}/*
-%if %{gcj_support}
-%dir %{_libdir}/gcj/%{name}
-%{_libdir}/gcj/%{name}/*
-%endif
+%{gcj_files}
 
 %files demo
 %defattr(0644,root,root,0755)
