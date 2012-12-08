@@ -34,7 +34,7 @@
 Name:           gnu-regexp
 Version:        1.1.4
 # 10jpp, but need 17 to obsolete old mdv package
-Release:        %mkrel 17.0.4
+Release:        %mkrel 17.0.6
 Epoch:          0
 Summary:        Java NFA regular expression engine implementation
 License:        LGPL
@@ -107,7 +107,7 @@ export CLASSPATH=$(build-classpath gnu.getopt)
 
 # javadoc
 %__mkdir_p %{buildroot}%{_javadocdir}/%{name}-%{version}
-%__cp -a build/api/* %{buildroot}%{_javadocdir}/%{name}-%{version}
+cp -a build/api/* %{buildroot}%{_javadocdir}/%{name}-%{version}
 (cd %{buildroot}%{_javadocdir} && %__ln_s %{name}-%{version} %{name})
 
 %{gcj_compile}
@@ -131,3 +131,68 @@ export CLASSPATH=$(build-classpath gnu.getopt)
 %{_javadocdir}/%{name}-%{version}/*
 %dir %{_javadocdir}/%{name}
 
+
+
+%changelog
+* Fri Apr 15 2011 Antoine Ginies <aginies@mandriva.com> 0:1.1.4-17.0.4mdv2011.0
++ Revision: 653148
+- bump the release
+
+* Mon Feb 08 2010 Anssi Hannula <anssi@mandriva.org> 0:1.1.4-17.0.3mdv2010.1
++ Revision: 502285
+- rebuild
+
+* Fri Sep 04 2009 Thierry Vignaud <tv@mandriva.org> 0:1.1.4-17.0.2mdv2010.0
++ Revision: 429283
+- rebuild
+
+* Wed Jun 18 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.1.4-17.0.1mdv2009.0
++ Revision: 224986
+- bump release to obsolete gnu.regexp, disable gcj_compile
+
+* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.4-15.0.1mdv2008.1
++ Revision: 139082
+- update release
+
+* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.4-10.0.1mdv2008.1
++ Revision: 139010
+- import gnu-regexp
+
+
+* Thu May 04 2006 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-10jpp
+- First JPP-1.7 release
+- Change name to gnu-regexp, Provide/Obsolete gnu.regexp
+- Still provide gnu.regexp.jar as symlink
+
+* Wed Feb 16 2005 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-9jpp
+- Build with javac 1.4.2
+
+* Sun Feb 06 2005 David Walluck <david@jpackage.org> 0:1.1.4-8jpp
+- add non-versioned javadoc link
+- modernize spec
+
+* Mon Aug 23 2004 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-7jpp
+- Build with ant-1.6.2
+
+* Sun Sep 28 2003 David Walluck <david@anti-microsoft.org> 0:1.1.4-6jpp
+- add Distribution and Vendor tags
+
+* Thu Mar 27 2003 Ville Skyttä <ville.skytta at iki.fi> - 0:1.1.4-5jpp
+- Adapted for JPackage 1.5.
+
+* Sat Feb 01 2003 David Walluck <david@anti-microsoft.org> 1.1.4-4jpp
+- remove vendor tag
+
+* Sat Feb 01 2003 David Walluck <david@anti-microsoft.org> 1.1.4-3jpp
+- move gnu.regexp.util classes to demo package in order to remove the
+  gnu.getopt dependency from the main package
+- remove bzip2 compression on build script
+
+* Sat Jan 19 2002 Guillaume Rousse <guillomovitch@users.sourceforge.net> 1.1.4-2jpp
+- versioned dir for javadoc
+- no dependencies for javadoc package
+- additional sources in individual archives
+- section macro
+
+* Sat Dec 8 2001 Guillaume Rousse <guillomovitch@users.sourceforge.net> 1.1.4-1jpp
+- first JPackage release
