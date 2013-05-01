@@ -31,28 +31,27 @@
 %define gcj_support 0
 %define section free
 
-Name:           gnu-regexp
-Version:        1.1.4
+Summary:	Java NFA regular expression engine implementation
+Name:		gnu-regexp
+Epoch:	0
+Version:	1.1.4
 # 10jpp, but need 17 to obsolete old mdv package
-Release:        17.0.7
-Epoch:          0
-Summary:        Java NFA regular expression engine implementation
-License:        LGPL
-Source0:        ftp://ftp.tralfamadore.com/pub/java/gnu.regexp-1.1.4.tar.gz
-Source1:        %{name}.build.xml
-BuildRequires:  ant
-BuildRequires:  gnu-getopt
-BuildRequires:  java-rpmbuild >= 0:1.6
-URL:            http://www.cacas.org/java/gnu/regexp/
-Group:          Development/Java
+Release:	17.0.7
+License:	LGPL
+Group:		Development/Java
+Url:		http://www.cacas.org/java/gnu/regexp/
+Source0:	ftp://ftp.tralfamadore.com/pub/java/gnu.regexp-1.1.4.tar.gz
+Source1:	%{name}.build.xml
+BuildArch:	noarch
+
+BuildRequires:	ant
+BuildRequires:	gnu-getopt
+BuildRequires:	java-rpmbuild >= 0:1.6
 %if %{gcj_support}
-BuildRequires:  java-gcj-compat-devel
+BuildRequires:	java-gcj-compat-devel
 %else
-BuildArch:      noarch
 %endif
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-Provides:        gnu.regexp = %{epoch}:%{version}-%{release}
-Obsoletes:        gnu.regexp < %{epoch}:%{version}-%{release}
+Provides:	gnu.regexp = %{epoch}:%{version}-%{release}
 
 %description
 The gnu.regexp package is a pure-Java implementation of a traditional
@@ -62,28 +61,26 @@ a relatively complete list of supported and non-supported syntax, refer
 to the syntax and usage notes.
 
 %package demo
-Summary:        Demo for %{name}
-Requires:       %{name} = %{epoch}:%{version}-%{release}
-Requires:       gnu.getopt
-Group:          Development/Java
-Provides:        gnu.regexp-demo = %{epoch}:%{version}-%{release}
-Obsoletes:        gnu.regexp-demo < %{epoch}:%{version}-%{release}
+Summary:	Demo for %{name}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	gnu.getopt
+Group:		Development/Java
+Provides:	gnu.regexp-demo = %{epoch}:%{version}-%{release}
 
 %description demo
 Demonstrations and samples for %{name}.
 
 %package javadoc
-Summary:        Javadoc for %{name}
-Group:          Development/Java
-Provides:        gnu.regexp-javadoc = %{epoch}:%{version}-%{release}
-Obsoletes:        gnu.regexp-javadoc < %{epoch}:%{version}-%{release}
+Summary:	Javadoc for %{name}
+Group:		Development/Java
+Provides:	gnu.regexp-javadoc = %{epoch}:%{version}-%{release}
 
 %description javadoc
 Javadoc for %{name}.
 
 %prep
 %setup -q -n gnu.regexp-%{version}
-%__cp -a %{SOURCE1} build.xml
+cp -a %{SOURCE1} build.xml
 %remove_java_binaries
 
 %build
@@ -92,107 +89,34 @@ export CLASSPATH=$(build-classpath gnu.getopt)
 %{ant} jar javadoc
 
 %install
-%__rm -rf %{buildroot}
-
 # jars
-%__mkdir_p %{buildroot}%{_javadir}
-%__cp -a build/lib/gnu.regexp.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
-(cd %{buildroot}%{_javadir} && for jar in *-%{version}*; do %__ln_s ${jar} `echo $jar| sed "s|-%{version}||g"`; done
-%__ln_s %{name}.jar gnu.regexp.jar)
+mkdir -p %{buildroot}%{_javadir}
+cp -a build/lib/gnu.regexp.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
+(cd %{buildroot}%{_javadir} && for jar in *-%{version}*; do ln -s ${jar} `echo $jar| sed "s|-%{version}||g"`; done
+ln -s %{name}.jar gnu.regexp.jar)
 
 # demo
-%__mkdir_p %{buildroot}%{_datadir}/%{name}/gnu/regexp/util
-%__cp -a build/classes/gnu/regexp/util/*.class \
+mkdir -p %{buildroot}%{_datadir}/%{name}/gnu/regexp/util
+cp -a build/classes/gnu/regexp/util/*.class \
   %{buildroot}%{_datadir}/%{name}/gnu/regexp/util
 
 # javadoc
-%__mkdir_p %{buildroot}%{_javadocdir}/%{name}-%{version}
+mkdir -p %{buildroot}%{_javadocdir}/%{name}-%{version}
 cp -a build/api/* %{buildroot}%{_javadocdir}/%{name}-%{version}
-(cd %{buildroot}%{_javadocdir} && %__ln_s %{name}-%{version} %{name})
+(cd %{buildroot}%{_javadocdir} && ln -s %{name}-%{version} %{name})
 
 %{gcj_compile}
 
-%clean
-%__rm -rf %{buildroot}
-
 %files
-%defattr(0644,root,root,0755)
 %doc COPYING COPYING.LIB README TODO docs/*.html
 %{_javadir}/*
 %{gcj_files}
 
 %files demo
-%defattr(0644,root,root,0755)
 %{_datadir}/%{name}
 
 %files javadoc
-%defattr(0644,root,root,0755)
 %dir %{_javadocdir}/%{name}-%{version}
 %{_javadocdir}/%{name}-%{version}/*
 %dir %{_javadocdir}/%{name}
 
-
-
-%changelog
-* Fri Apr 15 2011 Antoine Ginies <aginies@mandriva.com> 0:1.1.4-17.0.4mdv2011.0
-+ Revision: 653148
-- bump the release
-
-* Mon Feb 08 2010 Anssi Hannula <anssi@mandriva.org> 0:1.1.4-17.0.3mdv2010.1
-+ Revision: 502285
-- rebuild
-
-* Fri Sep 04 2009 Thierry Vignaud <tv@mandriva.org> 0:1.1.4-17.0.2mdv2010.0
-+ Revision: 429283
-- rebuild
-
-* Wed Jun 18 2008 Alexander Kurtakov <akurtakov@mandriva.org> 0:1.1.4-17.0.1mdv2009.0
-+ Revision: 224986
-- bump release to obsolete gnu.regexp, disable gcj_compile
-
-* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.4-15.0.1mdv2008.1
-+ Revision: 139082
-- update release
-
-* Sat Dec 29 2007 David Walluck <walluck@mandriva.org> 0:1.1.4-10.0.1mdv2008.1
-+ Revision: 139010
-- import gnu-regexp
-
-
-* Thu May 04 2006 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-10jpp
-- First JPP-1.7 release
-- Change name to gnu-regexp, Provide/Obsolete gnu.regexp
-- Still provide gnu.regexp.jar as symlink
-
-* Wed Feb 16 2005 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-9jpp
-- Build with javac 1.4.2
-
-* Sun Feb 06 2005 David Walluck <david@jpackage.org> 0:1.1.4-8jpp
-- add non-versioned javadoc link
-- modernize spec
-
-* Mon Aug 23 2004 Ralph Apel <r.apel at r-apel.de> 0:1.1.4-7jpp
-- Build with ant-1.6.2
-
-* Sun Sep 28 2003 David Walluck <david@anti-microsoft.org> 0:1.1.4-6jpp
-- add Distribution and Vendor tags
-
-* Thu Mar 27 2003 Ville Skyttä <ville.skytta at iki.fi> - 0:1.1.4-5jpp
-- Adapted for JPackage 1.5.
-
-* Sat Feb 01 2003 David Walluck <david@anti-microsoft.org> 1.1.4-4jpp
-- remove vendor tag
-
-* Sat Feb 01 2003 David Walluck <david@anti-microsoft.org> 1.1.4-3jpp
-- move gnu.regexp.util classes to demo package in order to remove the
-  gnu.getopt dependency from the main package
-- remove bzip2 compression on build script
-
-* Sat Jan 19 2002 Guillaume Rousse <guillomovitch@users.sourceforge.net> 1.1.4-2jpp
-- versioned dir for javadoc
-- no dependencies for javadoc package
-- additional sources in individual archives
-- section macro
-
-* Sat Dec 8 2001 Guillaume Rousse <guillomovitch@users.sourceforge.net> 1.1.4-1jpp
-- first JPackage release
