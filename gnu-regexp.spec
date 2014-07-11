@@ -36,7 +36,7 @@ Name:		gnu-regexp
 Epoch:	0
 Version:	1.1.4
 # 10jpp, but need 17 to obsolete old mdv package
-Release:	17.0.12
+Release:	17.0.13
 License:	LGPL
 Group:		Development/Java
 Url:		http://www.cacas.org/java/gnu/regexp/
