@@ -30,7 +30,7 @@
 
 Name:           gnu-regexp
 Version:        1.1.4
-Release:        19.3
+Release:        19.4
 Summary:        Java NFA regular expression engine implementation
 Group:		Development/Java
 # GPLv2+: gnu/regexp/util/Egrep.java
