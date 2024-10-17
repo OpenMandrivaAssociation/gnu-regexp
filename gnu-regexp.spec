@@ -45,7 +45,7 @@ Source0:        http://ftp.frugalware.org/pub/other/sources/gnu.regexp/gnu.regex
 Source1:        %{name}.build.xml
 BuildRequires:  ant
 BuildRequires:  gnu-getopt
-URL:            http://savannah.gnu.org/projects/gnu-regexp
+URL:            https://savannah.gnu.org/projects/gnu-regexp
 BuildArch:      noarch
 Provides:       gnu.regexp = %{version}-%{release}
 Obsoletes:      gnu.regexp < %{version}-%{release}
